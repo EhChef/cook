@@ -6,13 +6,23 @@
   "dependencies": {
     "vue": "^2.5.17"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "@commitlint/cli": "^7.2.1",
+    "@commitlint/config-conventional": "^7.1.2",
+    "@commitlint/prompt": "^7.2.1",
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "commit": "git-cz",
+    "commit:retry": "git-cz --retry",
+    "commitmsg": "commitlint -e"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/EhChef/cook.git"
+  },
+  "config": {
+      "commitizen": "node_modules/@commitlint/prompt"
   },
   "author": "Eh Chef",
   "license": "ISC",
