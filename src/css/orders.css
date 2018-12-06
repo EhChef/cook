@@ -1,0 +1,13 @@
+.nav{
+    background-color: #EC5151;
+    width: 100%;
+    height: 100vh;
+}
+.navPadding{
+    padding: 0px !important;
+}
+.logoNav{
+    width: 230px;
+    height: 170px;
+    margin: 20px auto;
+}
