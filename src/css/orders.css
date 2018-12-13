@@ -11,3 +11,17 @@
     height: 170px;
     margin: 20px auto;
 }
+
+.order{
+    background-color: #ECEFF1;
+    margin: 15px;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+.decal{
+    margin-left: 15px;
+    font-style: italic;
+    font-size: 14px;
+}
