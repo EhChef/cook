@@ -4,6 +4,9 @@ import createHistory from 'history/createBrowserHistory';
 
 import Connexion from './Connexion';
 import Orders from './Orders';
+import Starter from './Starter';
+import MainCourse from './MainCourse';
+import Dessert from './Dessert';
 import SessionGuard from '../guards/SessionGuard';
 
 class App extends Component {
@@ -30,6 +33,9 @@ class App extends Component {
                         <Redirect to="/orders" />
                     )} />
                     <SessionGuard exact path="/orders" component={Orders} />
+                    <SessionGuard exact path="/starter" component={Starter} />
+                    <SessionGuard exact path="/mainCourse" component={MainCourse} />
+                    <SessionGuard exact path="/dessert" component={Dessert} />
                 </Switch>
             </Router>
         )
