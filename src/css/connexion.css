@@ -41,12 +41,8 @@
   font-weight: 300;
 }
 .form input:focus {
-  outline: none;
-  background-color: white;
-  border-color: white;
   width: 300px;
   color: #EC5151;
-  box-shadow: none;
 }
 .form button {
   -webkit-appearance: none;
@@ -66,11 +62,6 @@
 }
 .form button:hover {
   background-color: #f5f7f9;
-}
-.form button:focus {
-  outline: none;
-  border-color: white;
-  box-shadow: none;
 }
 /* Ending login css */
 

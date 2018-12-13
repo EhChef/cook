@@ -12,3 +12,23 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+.textGreen{
+    color: #4CAF50;
+}
+.textRed{
+    color: #EC5151;
+}
+
+button:focus {
+  outline: none;
+  border-color: white;
+  box-shadow: none;
+}
+
+input:focus {
+  outline: none;
+  background-color: white;
+  border-color: white;
+  box-shadow: none;
+}

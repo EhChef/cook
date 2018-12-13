@@ -1,5 +1,5 @@
 export function PostConnexion(type, userData){
-    const baseUrl = "http://localhost:3000/"; // /account | /orders
+    const baseUrl = "http://localhost:3000/";
 
     return new Promise((resolve, reject) => {
         fetch(baseUrl+type, {
