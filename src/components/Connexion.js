@@ -21,8 +21,9 @@ class Connexion extends Component {
 
   login(){
       PostConnexion('accounts/login', this.state).then((result) => {
-          if (result.token){
+          if (result.token && result.account){
               localStorage.setItem('token', result.token);
+              localStorage.setItem('account', result.account._id);
               this.props.history.push('/orders');
           }
       });
