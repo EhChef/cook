@@ -21,7 +21,7 @@ class Stater extends Component {
             name: "",
             account: localStorage.getItem('account'),
             price: "",
-            cSelected: []
+            available: true
         };
         this.add = this.add.bind(this);
         this.onChange = this.onChange.bind(this);
@@ -29,7 +29,6 @@ class Stater extends Component {
         this.deleteData = this.deleteData.bind(this);
 
         this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
-        this.onCheckboxBtnClick = this.onCheckboxBtnClick.bind(this);
     }
 
     add(){
@@ -38,7 +37,8 @@ class Stater extends Component {
                 this.getData();
                 this.setState({
                     name: "",
-                    price: ""
+                    price: "",
+                    available: true
                 })
             });
         }
@@ -67,17 +67,8 @@ class Stater extends Component {
         this.getData();
     }
 
-    onRadioBtnClick(rSelected) {
-        this.setState({ rSelected });
-    }
-
-    onCheckboxBtnClick(selected) {
-        const index = this.state.cSelected.indexOf(selected);
-        if (index < 0)
-            this.state.cSelected.push(selected);
-        else
-            this.state.cSelected.splice(index, 1);
-        this.setState({ cSelected: [...this.state.cSelected] });
+    onRadioBtnClick(available) {
+        this.setState({ available });
     }
 
     render() {
@@ -89,7 +80,11 @@ class Stater extends Component {
                 <Row>
                     <NavBar />
                     <Col>
-                        <h1 className="subTitle">Liste des entrées</h1>
+                        <Row>
+                            <Col>
+                                <h1 className="subTitle">Liste des entrées</h1>
+                            </Col>
+                        </Row>
                         <Row>
                             <Col>
                                 <FormGroup controlId="name">
@@ -120,15 +115,15 @@ class Stater extends Component {
                                 <ButtonGroup>
                                     <Button
                                         color="primary"
-                                        onClick={() => this.onRadioBtnClick(1)}
-                                        active={this.state.rSelected === 1}
+                                        onClick={() => this.onRadioBtnClick(true)}
+                                        active={this.state.available === true}
                                     >
                                         Disponible
                                     </Button>
                                     <Button
                                         color="primary"
-                                        onClick={() => this.onRadioBtnClick(2)}
-                                        active={this.state.rSelected === 2}
+                                        onClick={() => this.onRadioBtnClick(false)}
+                                        active={this.state.available === false}
                                     >
                                         Non disponible
                                     </Button>
@@ -145,35 +140,36 @@ class Stater extends Component {
                                 </Button>
                             </Col>
                         </Row>
-                        <br />
-                        <Table striped hover className="text-center">
-                            <thead>
-                                <tr>
-                                    <th>Nom</th>
-                                    <th width="30%">Prix</th>
-                                    <th width="20%">Disponible</th>
-                                    <th width="20%">Supprimer</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                { datas.map(data =>
-                                    <tr key={ data._id }>
-                                        <td>
-                                            { data.name }
-                                        </td>
-                                        <td xs="1">
-                                            { data.price } €
-                                        </td>
-                                        <td>
-                                            { data.available === true ? <i className="fas fa-check textGreen"></i> : <i className="fas fa-times textRed"></i> }
-                                        </td>
-                                        <td>
-                                            <Link to="#" className="trash" onClick={() => this.deleteData(data._id)} ><i className="fas fa-trash-alt"></i></Link>
-                                        </td>
+                        <Row className="mt-3">
+                            <Table striped className="text-center">
+                                <thead>
+                                    <tr>
+                                        <th>Nom</th>
+                                        <th width="30%">Prix</th>
+                                        <th width="20%">Disponible</th>
+                                        <th width="20%">Supprimer</th>
                                     </tr>
-                                ) }
-                            </tbody>
-                        </Table>
+                                </thead>
+                                <tbody>
+                                    { datas.map(data =>
+                                        <tr key={ data._id }>
+                                            <td>
+                                                { data.name }
+                                            </td>
+                                            <td xs="1">
+                                                { data.price.toFixed(2) } €
+                                            </td>
+                                            <td>
+                                                { data.available === true ? <i className="fas fa-check textGreen"></i> : <i className="fas fa-times textRed"></i> }
+                                            </td>
+                                            <td>
+                                                <Link to="#" className="trash" onClick={() => this.deleteData(data._id)} ><i className="fas fa-trash-alt"></i></Link>
+                                            </td>
+                                        </tr>
+                                    ) }
+                                </tbody>
+                            </Table>
+                        </Row>
                     </Col>
                 </Row>
             </Container>
