@@ -88,7 +88,7 @@ class MainCourse extends Component {
             <Row>
                 <NavBar />
                 <Col>
-                    <h1 className="subTitle">Liste des entrées</h1>
+                    <h1 className="subTitle">Liste des plats</h1>
                     <Row>
                         <Col>
                             <FormGroup controlId="name">
