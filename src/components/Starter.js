@@ -147,7 +147,7 @@ class Stater extends Component {
                                         <th>Nom</th>
                                         <th width="30%">Prix</th>
                                         <th width="20%">Disponible</th>
-                                        <th width="20%">Supprimer</th>
+                                        <th width="20%">Action</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -163,7 +163,8 @@ class Stater extends Component {
                                                 { data.available === true ? <i className="fas fa-check textGreen"></i> : <i className="fas fa-times textRed"></i> }
                                             </td>
                                             <td>
-                                                <Link to="#" className="trash" onClick={() => this.deleteData(data._id)} ><i className="fas fa-trash-alt"></i></Link>
+                                                <Link to="#" className="trash" onClick={() => this.modify(data._id)} ><i className="fas fa-pen"></i></Link>
+                                                <Link to="#" className="trash ml-3" onClick={() => this.deleteData(data._id)} ><i className="fas fa-trash-alt"></i></Link>
                                             </td>
                                         </tr>
                                     ) }
