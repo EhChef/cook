@@ -7,6 +7,7 @@ import Orders from './Orders';
 import Starter from './Starter';
 import MainCourse from './MainCourse';
 import Dessert from './Dessert';
+import Menu from './Menu';
 import SessionGuard from '../guards/SessionGuard';
 
 class App extends Component {
@@ -36,6 +37,7 @@ class App extends Component {
                     <SessionGuard exact path="/starter" component={Starter} />
                     <SessionGuard exact path="/mainCourse" component={MainCourse} />
                     <SessionGuard exact path="/dessert" component={Dessert} />
+                    <SessionGuard exact path="/menu" component={Menu} />
                 </Switch>
             </Router>
         )
