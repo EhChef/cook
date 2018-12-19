@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Button, FormGroup, FormControl } from "react-bootstrap";
+// import socketIOClient from "socket.io-client";
 
 import { PostConnexion } from '../services/PostConnexion';
 import logo from '../img/logo.png';
@@ -10,7 +11,6 @@ class Connexion extends Component {
 
     constructor(props) {
     super(props);
-
     this.state = {
         email: "",
         password: ""
@@ -24,7 +24,6 @@ class Connexion extends Component {
           if (result.token && result.account){
               localStorage.setItem('token', result.token);
               localStorage.setItem('account', result.account._id);
-              this.props.history.push('/orders');
           }
       });
   }

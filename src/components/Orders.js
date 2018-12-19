@@ -1,8 +1,12 @@
 import React, { Component } from 'react';
 
+// import socketIOClient from "socket.io-client";
+
 import { Container, Row, Col } from 'reactstrap';
 import { GetData } from '../services/GetData';
 import NavBar from './NavBar';
+
+import { socket } from '../shared/socket';
 
 import '../css/orders.css';
 
@@ -12,7 +16,7 @@ class Orders extends Component {
 
   constructor(props) {
     super(props);
-
+    
     this.state = {
         datas: [],
     };
@@ -23,6 +27,22 @@ class Orders extends Component {
         this.setState({
             datas: result
         });
+    });
+    this.socketListen();
+  }
+
+  socketListen(){
+      console.log('listen')
+    let room = localStorage.getItem('account');
+    socket.on('connect', () => {
+        socket.emit('room', { roomId: room, role: 0});
+        socket.on('order', (order) => {
+            // Attacher l'order au state ici
+            // this.setState({
+            //     datas: order
+            // });
+            console.log('Receiving order')
+        })
     });
   }
 
