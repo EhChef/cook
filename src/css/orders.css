@@ -1,0 +1,58 @@
+.logoNav{
+    width: 230px;
+    height: 170px;
+    margin: 20px auto;
+}
+
+.order{
+    background-color: #ECEFF1;
+    margin: 15px;
+    padding: 10px;
+    text-align: center;
+    width: 100%;
+}
+
+.decal{
+    margin-left: 15px;
+    font-style: italic;
+    font-size: 14px;
+}
+
+button{
+    background-color: #EC5151;
+    color: white;
+}
+
+button:focus {
+  outline: none;
+  border-color: white;
+  box-shadow: none;
+}
+
+.active{
+    background-color: #cb2d3e;
+}
+
+input:focus {
+  outline: none;
+  background-color: white;
+  border-color: white;
+  box-shadow: none;
+}
+
+h1.subTitle{
+    color: #cb2d3e;
+    margin: 20px 0;
+}
+
+a.trash{
+    color: black;
+}
+
+a:hover.trash{
+    color: #cb2d3e;
+}
+
+.noPadding{
+    padding: 0;
+}

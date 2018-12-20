@@ -1,10 +1,20 @@
 {
   "name": "cook",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "Desktop web app for our beloved cookers. 👨🏼‍🍳",
-  "main": "index.js",
+  "private": true,
   "dependencies": {
-    "vue": "^2.5.17"
+    "@fortawesome/fontawesome-free": "^5.5.0",
+    "bootstrap": "^4.1.3",
+    "history": "^4.7.2",
+    "moment": "^2.22.2",
+    "react": "^16.6.3",
+    "react-autocomplete": "^1.8.1",
+    "react-bootstrap": "^0.32.4",
+    "react-dom": "^16.6.3",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.1",
+    "reactstrap": "^6.5.0"
   },
   "devDependencies": {
     "@commitlint/cli": "^7.2.1",
@@ -14,22 +24,24 @@
     "husky": "^1.1.4"
   },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
     "commit": "git-cz",
     "commit:retry": "git-cz --retry",
     "commitmsg": "commitlint -e"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/EhChef/cook.git"
-  },
   "config": {
     "commitizen": "node_modules/@commitlint/prompt"
   },
-  "author": "Eh Chef",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/EhChef/cook/issues"
+  "eslintConfig": {
+    "extends": "react-app"
   },
-  "homepage": "https://github.com/EhChef/cook#readme"
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
 }
