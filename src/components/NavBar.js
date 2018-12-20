@@ -19,16 +19,13 @@ class NavBar extends Component {
                         <NavLink to="/orders" activeClassName="active">Tableau des commandes</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink to="/starter" activeClassName="active">Créer les entrées</NavLink>
+                        <NavLink to="/starter" activeClassName="active">Gestion des entrées</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink to="/mainCourse" activeClassName="active">Créer les plats</NavLink>
+                        <NavLink to="/mainCourse" activeClassName="active">Gestion des plats</NavLink>
                     </NavItem>
                     <NavItem>
-                        <NavLink to="/dessert" activeClassName="active">Créer les desserts</NavLink>
-                    </NavItem>
-                    <NavItem>
-                        <NavLink to="/menu" activeClassName="active">Créer les menus</NavLink>
+                        <NavLink to="/dessert" activeClassName="active">Gestion des desserts</NavLink>
                     </NavItem>
                 </Nav>
             </div>

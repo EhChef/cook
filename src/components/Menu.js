@@ -1,39 +1,114 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 
-import { Container, Row, Col, Table, ButtonGroup, InputGroupAddon, InputGroup, Input } from 'reactstrap';
-import { Button, FormGroup, FormControl } from "react-bootstrap";
+import { Container, Row, Col, Table, Modal, ModalHeader, ModalBody, ModalFooter, InputGroupAddon, InputGroup, Input } from 'reactstrap';
+import { Button, FormGroup} from "react-bootstrap";
 import NavBar from './NavBar';
-
-import '../css/orders.css';
+import Autocomplete from 'react-autocomplete'
 
 import { AddData } from '../services/AddData';
 import { GetData } from '../services/GetData';
-import { DeleteData } from '../services/DeleteData';
 
-class Stater extends Component {
+import '../css/orders.css';
+
+class Menu extends Component {
 
     constructor(props) {
         super(props);
 
         this.state = {
-            datas: [],
-            name: "",
-            account: localStorage.getItem('account'),
-            price: "",
-            available: true
+            modal: false,
+            starterInput: '',
+            starter: '',
+            mainCourseInput: '',
+            mainCourse: '',
+            dessertInput: '',
+            dessert: '',
+            starters: [],
+            mainCourses: [],
+            desserts: [],
+            price: 0,
         };
         this.add = this.add.bind(this);
-        this.onChange = this.onChange.bind(this);
         this.getData = this.getData.bind(this);
-        this.deleteData = this.deleteData.bind(this);
+        this.toggle = this.toggle.bind(this);
+    }
 
-        this.onRadioBtnClick = this.onRadioBtnClick.bind(this);
+    componentDidMount() {
+        GetData('starters').then((result) => {
+            this.setState({
+                starters: result
+            });
+        });
+        GetData('mainCourses').then((result) => {
+            this.setState({
+                mainCourses: result
+            });
+        });
+        GetData('desserts').then((result) => {
+            this.setState({
+                desserts: result
+            });
+        });
+    }
+
+    toggle() {
+        this.setState({
+            modal: !this.state.modal
+        });
+    }
+
+    onChange(name, e){
+        this.setState({ [name]: e.target.value });
+    }
+
+    onStarterSelect(e) {
+        console.log(e);
+        let itemId = this.state.starters.filter(a => a.name = e)[0]._id;
+        console.log('id : ', itemId);
+        this.setState({
+            starterInput: e,
+            starter: itemId
+        })
+    }
+
+    onMainCourseSelect(e) {
+        console.log(e);
+        let itemId = this.state.mainCourses.filter(a => a.name = e)[0]._id;
+        console.log('id : ', itemId);
+        this.setState({
+            mainCourseInput: e,
+            mainCourse: itemId
+        })
+    }
+
+    onDessertSelect(e) {
+        console.log(e);
+        let itemId = this.state.desserts.filter(a => a.name = e)[0]._id;
+        console.log('id : ', itemId);
+        this.setState({
+            dessertInput: e,
+            dessert: itemId
+        })
+    }
+
+    shouldRender(item, value) {
+        //console.log('test');
+        //console.log(item.name.toLowerCase().indexOf(value.toLowerCase()) > -1);
+    }
+
+    getData(){
+        GetData('menus').then((result) => {
+            this.setState({
+                datas: result
+            });
+        });
     }
 
     add(){
+        console.log(this.state)
         if (this.state.name !== "" && this.state.price !== ""){
-            AddData('starters', this.state).then(() => {
+            AddData('menus', this.state).then(() => {
                 this.getData();
                 this.setState({
                     name: "",
@@ -42,36 +117,17 @@ class Stater extends Component {
                 })
             });
         }
-    }
-
-    onChange(e){
-        this.setState({[e.target.name]: e.target.value})
-    }
-
-    getData(){
-        GetData('starters').then((result) => {
-            this.setState({
-                datas: result
-            });
-        });
-    }
-
-    deleteData(id){
-        DeleteData('starters', id).then(() => {
-            const slicedArray = this.state.datas.filter(d => d._id !== id);
-            this.setState({ datas: slicedArray });
-        });
-    }
-
-    componentDidMount() {
-        this.getData();
-    }
-
-    onRadioBtnClick(available) {
-        this.setState({ available });
+        this.toggle();
     }
 
     render() {
+        // console.log('starters  : ', this.state.starters);
+        // console.log('starter  : ', this.state.starter);
+        // console.log('starterInput  : ', this.state.starterInput);
+        // this.state.starters.map(starter => starter.name).indexOf(this.state.starterInput) > -1
+        let starterRegex = new RegExp(this.state.starterInput, 'g');
+        let mainCourseRegex = new RegExp(this.state.mainCourseInput, 'g');
+        let dessertRegex = new RegExp(this.state.dessertInput, 'g');
 
         const { datas } = this.state;
 
@@ -82,62 +138,86 @@ class Stater extends Component {
                     <Col>
                         <Row>
                             <Col>
-                                <h1 className="subTitle">Liste des entrées</h1>
+                                <h1 className="subTitle">Liste des menus</h1>
                             </Col>
-                        </Row>
-                        <Row>
-                            <Col>
-                                <FormGroup controlId="name">
-                                    <FormControl
-                                        type="text"
-                                        placeholder="Nom"
-                                        name="name"
-                                        value={this.state.name}
-                                        onChange={this.onChange}
-                                    />
-                                </FormGroup>
-                            </Col>
-                            <Col>
-                                <FormGroup controlId="price">
-                                    <InputGroup>
-                                        <Input
-                                            type="number"
-                                            placeholder="Prix"
-                                            name="price"
-                                            value={this.state.price}
-                                            onChange={this.onChange}
-                                        />
-                                        <InputGroupAddon addonType="append">€</InputGroupAddon>
-                                    </InputGroup>
-                                </FormGroup>
-                            </Col>
-                            <Col className="text-center">
-                                <ButtonGroup>
-                                    <Button
-                                        color="primary"
-                                        onClick={() => this.onRadioBtnClick(true)}
-                                        active={this.state.available === true}
-                                    >
-                                        Disponible
-                                    </Button>
-                                    <Button
-                                        color="primary"
-                                        onClick={() => this.onRadioBtnClick(false)}
-                                        active={this.state.available === false}
-                                    >
-                                        Non disponible
-                                    </Button>
-                                </ButtonGroup>
-                            </Col>
-                            <Col xs="2">
+                            <Col xs="3" className="mt-4">
                                 <Button
                                     block
                                     type="submit"
                                     id="login-button"
-                                    onClick={this.add}
+                                    onClick={this.toggle}
                                 >
-                                    Ajouter
+                                    Ajouter un menu
                                 </Button>
+                                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                                    <ModalHeader toggle={this.toggle}>Ajouter un menu</ModalHeader>
+                                    <ModalBody>
+                                        <FormGroup controlId="starter">
+                                            <Autocomplete
+                                                getItemValue={(item) => item.name}
+                                                shouldItemRender={(item, value) => starterRegex.test(item.name) }
+                                                items={this.state.starters}
+                                                renderItem={(item, isHighlighted) =>
+                                                    <div key={item._id} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                                                      {item.name}
+                                                    </div>
+                                                }
+                                                value={this.state.starterInput}
+                                                onChange={this.onChange.bind(this, 'starterInput')}
+                                                onSelect={this.onStarterSelect.bind(this)}
+                                                inputProps={{ placeholder: 'Nom entrée', className: "form-control" }}
+                                            />
+                                        </FormGroup>
+                                        <FormGroup controlId="mainCourse">
+                                            <Autocomplete
+                                                getItemValue={(item) => item.name}
+                                                shouldItemRender={(item, value) => mainCourseRegex.test(item.name) }
+                                                items={this.state.mainCourses}
+                                                renderItem={(item, isHighlighted) =>
+                                                    <div key={item._id} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                                                      {item.name}
+                                                    </div>
+                                                }
+                                                value={this.state.mainCourseInput}
+                                                onChange={this.onChange.bind(this, 'mainCourseInput')}
+                                                onSelect={this.onMainCourseSelect.bind(this)}
+                                                inputProps={{ placeholder: 'Nom plat', className: "form-control" }}
+                                            />
+                                        </FormGroup>
+                                        <FormGroup controlId="Dessert">
+                                            <Autocomplete
+                                                getItemValue={(item) => item.name}
+                                                shouldItemRender={(item, value) => dessertRegex.test(item.name) }
+                                                items={this.state.desserts}
+                                                renderItem={(item, isHighlighted) =>
+                                                    <div key={item._id} style={{ background: isHighlighted ? 'lightgray' : 'white' }}>
+                                                      {item.name}
+                                                    </div>
+                                                }
+                                                value={this.state.desssertInput}
+                                                onChange={this.onChange.bind(this, 'dessertInput')}
+                                                onSelect={this.onDessertSelect.bind(this)}
+                                                inputProps={{ placeholder: 'Nom dessert', className: "form-control" }}
+                                            />
+                                        </FormGroup>
+                                        <FormGroup controlId="price">
+                                            <InputGroup>
+                                                <Input
+                                                    type="number"
+                                                    placeholder="Prix"
+                                                    name="price"
+                                                    value={this.state.price}
+                                                    onChange={this.onChange.bind(this, 'price')}
+                                                />
+                                                <InputGroupAddon addonType="append">€</InputGroupAddon>
+                                            </InputGroup>
+                                        </FormGroup>
+                                    </ModalBody>
+                                    <ModalFooter>
+                                        <Button color="primary" onClick={this.add}>Ajouter</Button>{' '}
+                                        <Button color="secondary" onClick={this.toggle}>Annuler</Button>
+                                    </ModalFooter>
+                                </Modal>
                             </Col>
                         </Row>
                         <Row className="mt-3">
@@ -151,23 +231,6 @@ class Stater extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    { datas.map(data =>
-                                        <tr key={ data._id }>
-                                            <td>
-                                                { data.name }
-                                            </td>
-                                            <td xs="1">
-                                                { data.price.toFixed(2) } €
-                                            </td>
-                                            <td>
-                                                { data.available === true ? <i className="fas fa-check textGreen"></i> : <i className="fas fa-times textRed"></i> }
-                                            </td>
-                                            <td>
-                                                <Link to="#" className="trash" onClick={() => this.modify(data._id)} ><i className="fas fa-pen"></i></Link>
-                                                <Link to="#" className="trash ml-3" onClick={() => this.deleteData(data._id)} ><i className="fas fa-trash-alt"></i></Link>
-                                            </td>
-                                        </tr>
-                                    ) }
                                 </tbody>
                             </Table>
                         </Row>
@@ -178,4 +241,4 @@ class Stater extends Component {
     }
 }
 
-export default Stater;
+export default Menu;

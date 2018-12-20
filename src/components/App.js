@@ -37,7 +37,6 @@ class App extends Component {
                     <SessionGuard exact path="/starter" component={Starter} />
                     <SessionGuard exact path="/mainCourse" component={MainCourse} />
                     <SessionGuard exact path="/dessert" component={Dessert} />
-                    <SessionGuard exact path="/menu" component={Menu} />
                 </Switch>
             </Router>
         )
