@@ -9,6 +9,7 @@
     "history": "^4.7.2",
     "moment": "^2.22.2",
     "react": "^16.6.3",
+    "react-autocomplete": "^1.8.1",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.6.3",
     "react-router-dom": "^4.3.1",
