@@ -3,104 +3,122 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import { GetData } from '../services/GetData';
 import NavBar from './NavBar';
-
+import { socket } from '../shared/socket';
 import '../css/orders.css';
 
 import moment from 'moment'
 
 class Orders extends Component {
 
-  constructor(props) {
-    super(props);
+    constructor(props) {
+        super(props);
 
-    this.state = {
-        datas: [],
-    };
-  }
+        this.state = {
+            datas: [],
+        };
+    }
 
-  componentDidMount() {
-    GetData('orders').then((result) => {
-        this.setState({
-            datas: result
+    componentDidMount() {
+        GetData('orders').then((result) => {
+            this.setState({
+                datas: result,
+                orders: []
+            });
         });
-    });
-  }
+        this.socketListen();
+    }
 
-  render() {
+    socketListen() {
+        console.log('listen')
+        let room = localStorage.getItem('account');
+        socket.on('connect', () => {
+            console.log('connected')
+            socket.emit('room', { roomId: room, role: 0 });
+            socket.on('order', (order) => {
+                // Attache l'order au state ici
+                console.log(order)
+                this.setState({
+                    orders: order
+                });
+            })
+        });
+    }
 
-    const { datas } = this.state;
+    render() {
 
-    return (
-        <Container fluid>
-            <Row>
-                <NavBar />
-                <Col>
-                    <Row>
-                        { datas.map(data =>
-                            <Col xs="2" className="order">
-                                <Row>
-                                    <Col>
-                                        <p>Table <br/><b>{ data.table }</b></p>
+        const { datas } = this.state;
+
+        return (
+            <Container fluid>
+                <Row>
+                    <NavBar />
+                    <Col>
+                        <Row>
+                            {datas.map(data =>
+                                <Col xs="2" className="order">
+                                    <Row>
+                                        <Col>
+                                            <p>Table <br /><b>{data.table}</b></p>
+                                        </Col>
+                                        <Col>
+                                            <p>Cmd <br /><b>{data.orderId}</b></p>
+                                        </Col>
+                                        <Col>
+                                            <p>{moment(data.created_at).format('DD/MM h:mm')}</p>
+                                        </Col>
+                                    </Row>
+                                    <hr />
+                                    <Row>
+                                        <Col xs="4">
+                                            1
                                     </Col>
-                                    <Col>
-                                        <p>Cmd <br/><b>{ data.orderId }</b></p>
+                                        <Col>
+                                            Menu
                                     </Col>
-                                    <Col>
-                                        <p>{ moment(data.created_at).format('DD/MM h:mm') }</p>
+                                    </Row>
+                                    <Row>
+                                        <Col className="decal">
+                                            Entrée
                                     </Col>
-                                </Row>
-                                <hr />
-                                <Row>
-                                    <Col xs="4">
-                                        1
+                                    </Row>
+                                    <Row>
+                                        <Col className="decal">
+                                            Plat
                                     </Col>
-                                    <Col>
-                                        Menu
+                                    </Row>
+                                    <Row>
+                                        <Col className="decal">
+                                            Dessert
                                     </Col>
-                                </Row>
-                                <Row>
-                                    <Col className="decal">
-                                        Entrée
+                                    </Row>
+                                    <hr />
+                                    <Row>
+                                        <Col xs="4">
+                                            1
                                     </Col>
-                                </Row>
-                                <Row>
-                                    <Col className="decal">
-                                        Plat
+                                        <Col>
+                                            Plat
                                     </Col>
-                                </Row>
-                                <Row>
-                                    <Col className="decal">
-                                        Dessert
+                                    </Row>
+                                    <hr />
+                                    <Row>
+                                        <Col xs="4">
+                                            1
                                     </Col>
-                                </Row>
-                                <hr />
-                                <Row>
-                                    <Col xs="4">
-                                        1
+                                        <Col>
+                                            Vin
                                     </Col>
-                                    <Col>
-                                        Plat
-                                    </Col>
-                                </Row>
-                                <hr />
-                                <Row>
-                                    <Col xs="4">
-                                        1
-                                    </Col>
-                                    <Col>
-                                        Vin
-                                    </Col>
-                                </Row>
-                                <hr />
-                                <i className="fas fa-check textGreen"></i>
-                            </Col>
-                        ) }
-                    </Row>
-                </Col>
-            </Row>
-        </Container>
-    );
-  }
+                                    </Row>
+                                    <hr />
+                                    <i className="fas fa-check textGreen"></i>
+                                </Col>
+                            )}
+                        </Row>
+                    </Col>
+                </Row>
+            </Container>
+        );
+    }
 }
 
 export default Orders;
