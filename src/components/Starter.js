@@ -10,8 +10,9 @@ import '../css/orders.css';
 import { AddData } from '../services/AddData';
 import { GetData } from '../services/GetData';
 import { DeleteData } from '../services/DeleteData';
+import { ModifyData } from '../services/ModifyData';
 
-class Stater extends Component {
+class Starter extends Component {
 
     constructor(props) {
         super(props);
@@ -60,6 +61,12 @@ class Stater extends Component {
         DeleteData('starters', id).then(() => {
             const slicedArray = this.state.datas.filter(d => d._id !== id);
             this.setState({ datas: slicedArray });
+        });
+    }
+
+    modifyData(id){
+        ModifyData('starters', id, this.state).then(() => {
+            this.getData();
         });
     }
 
@@ -163,7 +170,7 @@ class Stater extends Component {
                                                 { data.available === true ? <i className="fas fa-check textGreen"></i> : <i className="fas fa-times textRed"></i> }
                                             </td>
                                             <td>
-                                                <Link to="#" className="trash" onClick={() => this.modify(data._id)} ><i className="fas fa-pen"></i></Link>
+                                                <Link to="#" className="trash" onClick={() => this.ModifyData(data._id)} ><i className="fas fa-pen"></i></Link>
                                                 <Link to="#" className="trash ml-3" onClick={() => this.deleteData(data._id)} ><i className="fas fa-trash-alt"></i></Link>
                                             </td>
                                         </tr>
@@ -174,8 +181,9 @@ class Stater extends Component {
                     </Col>
                 </Row>
             </Container>
+            
         );
     }
 }
 
-export default Stater;
+export default Starter;
